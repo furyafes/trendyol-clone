@@ -1,0 +1,320 @@
+/* Custom CSS for Trendyol Clone */
+
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Header Styles */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+}
+
+/* Product Cards */
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 1rem;
+}
+
+/* Category Cards */
+.category-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: white;
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.category-card .card-body {
+    padding: 2rem 1rem;
+}
+
+/* Brand Cards */
+.brand-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: white;
+}
+
+.brand-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.brand-card .card-body {
+    padding: 1rem;
+}
+
+/* Buttons */
+.btn-danger {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-danger:hover {
+    background-color: #ee5a52;
+    border-color: #ee5a52;
+}
+
+.btn-outline-danger {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+/* Search Bar */
+.input-group .form-control:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+}
+
+/* Rating Stars */
+.text-warning {
+    color: #ffc107 !important;
+}
+
+/* Price Styling */
+.text-danger {
+    color: #ff6b6b !important;
+}
+
+/* Badge Styling */
+.badge.bg-danger {
+    background-color: #ff6b6b !important;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+.social-links a {
+    font-size: 1.2rem;
+    transition: opacity 0.2s;
+}
+
+.social-links a:hover {
+    opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        text-align: center;
+    }
+    
+    .product-card .card-img-top {
+        height: 150px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .product-card .card-body {
+        padding: 0.75rem;
+    }
+    
+    .hero-section {
+        padding: 2rem 0 !important;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.toast {
+    background-color: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Styling */
+.form-control:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+/* Alert Styling */
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+/* Pagination */
+.page-link {
+    color: #ff6b6b;
+    border-color: #dee2e6;
+}
+
+.page-link:hover {
+    color: #ee5a52;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.page-item.active .page-link {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+/* Dropdown Styling */
+.dropdown-menu {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Card Hover Effects */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Text Utilities */
+.text-muted {
+    color: #6c757d !important;
+}
+
+.text-decoration-line-through {
+    text-decoration: line-through !important;
+}
+
+/* Spacing Utilities */
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+.py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff6b6b;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ee5a52;
+} 

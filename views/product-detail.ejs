@@ -1,0 +1,360 @@
+<!-- Product Detail Page -->
+<div class="container py-4">
+    <% if (product) { %>
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Ana Sayfa</a></li>
+                <li class="breadcrumb-item"><a href="/products" class="text-decoration-none">Ürünler</a></li>
+                <li class="breadcrumb-item"><a href="/products?category=<%= encodeURIComponent(product.category) %>" class="text-decoration-none"><%= product.category %></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <!-- Product Images -->
+            <div class="col-md-6 mb-4">
+                <div class="product-images">
+                    <div class="main-image mb-3">
+                        <img src="<%= product.images[0] %>" class="img-fluid rounded" id="mainImage" alt="<%= product.name %>">
+                    </div>
+                    <div class="thumbnail-images">
+                        <div class="row">
+                            <% product.images.forEach((image, index) => { %>
+                                <div class="col-3 mb-2">
+                                    <img src="<%= image %>" class="img-fluid rounded thumbnail-image" 
+                                         onclick="changeMainImage('<%= image %>')" 
+                                         alt="<%= product.name %> - <%= index + 1 %>">
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="col-md-6">
+                <div class="product-info">
+                    <h1 class="h2 mb-2"><%= product.name %></h1>
+                    <p class="text-muted mb-3"><%= product.brand %></p>
+                    
+                    <!-- Rating -->
+                    <div class="rating mb-3">
+                        <div class="stars">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <i class="fas fa-star <%= i <= product.rating ? 'text-warning' : 'text-muted' %>"></i>
+                            <% } %>
+                        </div>
+                        <span class="ms-2 text-muted">(<%= product.reviewCount %> değerlendirme)</span>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="price-section mb-4">
+                        <% if (product.discount > 0) { %>
+                            <div class="original-price text-muted text-decoration-line-through">
+                                <%= product.originalPrice.toLocaleString('tr-TR') %> TL
+                            </div>
+                            <div class="current-price">
+                                <span class="h3 text-danger fw-bold">
+                                    <%= product.price.toLocaleString('tr-TR') %> TL
+                                </span>
+                                <span class="badge bg-danger ms-2">%<%= product.discount %> İndirim</span>
+                            </div>
+                        <% } else { %>
+                            <div class="current-price">
+                                <span class="h3 text-danger fw-bold">
+                                    <%= product.price.toLocaleString('tr-TR') %> TL
+                                </span>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Product Options -->
+                    <div class="product-options mb-4">
+                        <% if (product.sizes && product.sizes.length > 0) { %>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Beden:</label>
+                                <div class="size-options">
+                                    <% product.sizes.forEach(size => { %>
+                                        <button class="btn btn-outline-secondary size-btn" data-size="<%= size %>">
+                                            <%= size %>
+                                        </button>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        <% } %>
+
+                        <% if (product.colors && product.colors.length > 0) { %>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Renk:</label>
+                                <div class="color-options">
+                                    <% product.colors.forEach(color => { %>
+                                        <button class="btn btn-outline-secondary color-btn" data-color="<%= color %>">
+                                            <%= color %>
+                                        </button>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        <% } %>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Adet:</label>
+                            <div class="quantity-selector">
+                                <button class="btn btn-outline-secondary" onclick="changeQuantity(-1)">-</button>
+                                <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="10">
+                                <button class="btn btn-outline-secondary" onclick="changeQuantity(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart -->
+                    <div class="add-to-cart mb-4">
+                                                        <button class="btn btn-danger btn-lg w-100 mb-2" onclick="addToCartProductDetail('<%= product._id %>')">
+                            <i class="fas fa-shopping-cart me-2"></i>Sepete Ekle
+                        </button>
+                        <button class="btn btn-outline-danger w-100">
+                            <i class="fas fa-heart me-2"></i>Favorilere Ekle
+                        </button>
+                    </div>
+
+                    <!-- Stock Status -->
+                    <div class="stock-status mb-4">
+                        <% if (product.inStock) { %>
+                            <div class="text-success">
+                                <i class="fas fa-check-circle me-2"></i>Stokta
+                            </div>
+                        <% } else { %>
+                            <div class="text-danger">
+                                <i class="fas fa-times-circle me-2"></i>Stokta Yok
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="description mb-4">
+                        <h5>Ürün Açıklaması</h5>
+                        <p><%= product.description %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Similar Products -->
+        <% if (similarProducts && similarProducts.length > 0) { %>
+            <div class="similar-products mt-5">
+                <h3 class="mb-4">Benzer Ürünler</h3>
+                <div class="row">
+                    <% similarProducts.forEach(similarProduct => { %>
+                        <div class="col-md-3 col-sm-6 mb-4">
+                            <div class="card product-card h-100">
+                                <img src="<%= similarProduct.images[0] %>" class="card-img-top" alt="<%= similarProduct.name %>">
+                                <div class="card-body">
+                                    <h6 class="card-title"><%= similarProduct.name %></h6>
+                                    <div class="price">
+                                        <% if (similarProduct.discount > 0) { %>
+                                            <span class="text-decoration-line-through text-muted">
+                                                <%= similarProduct.originalPrice.toLocaleString('tr-TR') %> TL
+                                            </span>
+                                            <span class="text-danger fw-bold">
+                                                <%= similarProduct.price.toLocaleString('tr-TR') %> TL
+                                            </span>
+                                        <% } else { %>
+                                            <span class="text-danger fw-bold">
+                                                <%= similarProduct.price.toLocaleString('tr-TR') %> TL
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                    <a href="/products/<%= similarProduct._id %>" class="btn btn-outline-danger btn-sm w-100 mt-2">
+                                        İncele
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+
+    <% } else { %>
+        <div class="text-center py-5">
+            <h2>Ürün Bulunamadı</h2>
+            <p class="text-muted">Aradığınız ürün mevcut değil.</p>
+            <a href="/products" class="btn btn-danger">Ürünlere Dön</a>
+        </div>
+    <% } %>
+</div>
+
+<style>
+.product-images .main-image {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.thumbnail-image {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.thumbnail-image:hover {
+    border-color: #ff6b6b;
+}
+
+.size-btn, .color-btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.size-btn.active, .color-btn.active {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+    color: white;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    max-width: 150px;
+}
+
+.quantity-selector input {
+    border-left: none;
+    border-right: none;
+    text-align: center;
+}
+
+.quantity-selector .btn {
+    border-radius: 0;
+}
+
+.quantity-selector .btn:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.quantity-selector .btn:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+</style>
+
+<script>
+let selectedSize = null;
+let selectedColor = null;
+
+function changeMainImage(imageSrc) {
+    document.getElementById('mainImage').src = imageSrc;
+}
+
+function changeQuantity(delta) {
+    const quantityInput = document.getElementById('quantity');
+    let currentValue = parseInt(quantityInput.value);
+    let newValue = currentValue + delta;
+    
+    if (newValue >= 1 && newValue <= 10) {
+        quantityInput.value = newValue;
+    }
+}
+
+function addToCartProductDetail(productId) {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    
+    if (!selectedSize && document.querySelector('.size-btn')) {
+        showToast('Lütfen bir beden seçin', 'error');
+        return;
+    }
+    
+    if (!selectedColor && document.querySelector('.color-btn')) {
+        showToast('Lütfen bir renk seçin', 'error');
+        return;
+    }
+    
+    // AJAX ile sepete ekleme
+    fetch('/cart/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            productId: productId,
+            quantity: quantity,
+            size: selectedSize,
+            color: selectedColor
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Ürün sepete eklendi!', 'success');
+            updateCartCount(data.cartCount);
+        } else {
+            showToast(data.message || 'Bir hata oluştu', 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Bir hata oluştu', 'error');
+    });
+}
+
+// Size ve color seçimi
+document.addEventListener('DOMContentLoaded', function() {
+    const sizeBtns = document.querySelectorAll('.size-btn');
+    const colorBtns = document.querySelectorAll('.color-btn');
+    
+    sizeBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            sizeBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            selectedSize = this.dataset.size;
+        });
+    });
+    
+    colorBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            colorBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            selectedColor = this.dataset.color;
+        });
+    });
+});
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+function updateCartCount(count) {
+    const cartCountElement = document.querySelector('.cart-count');
+    if (cartCountElement) {
+        cartCountElement.textContent = count;
+    }
+}
+</script> 

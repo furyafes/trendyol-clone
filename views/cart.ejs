@@ -1,0 +1,372 @@
+<!-- Cart Page -->
+<div class="container py-4">
+    <h1 class="mb-4">Alışveriş Sepeti</h1>
+
+    <% if (cart && cart.length > 0) { %>
+        <div class="row">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="cart-items">
+                            <% cart.forEach((item, index) => { %>
+                                <div class="cart-item mb-3 pb-3 border-bottom" data-product-id="<%= item.product._id %>">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2 col-sm-3">
+                                            <img src="<%= item.product.images[0] %>" class="img-fluid rounded" alt="<%= item.product.name %>">
+                                        </div>
+                                        <div class="col-md-4 col-sm-9">
+                                            <h6 class="mb-1"><%= item.product.name %></h6>
+                                            <p class="text-muted mb-1"><%= item.product.brand %></p>
+                                            <% if (item.size) { %>
+                                                <small class="text-muted">Beden: <%= item.size %></small>
+                                            <% } %>
+                                            <% if (item.color) { %>
+                                                <small class="text-muted ms-2">Renk: <%= item.color %></small>
+                                            <% } %>
+                                        </div>
+                                        <div class="col-md-2 col-sm-6">
+                                            <div class="quantity-selector">
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity('<%= item.product._id %>', -1)">-</button>
+                                                <input type="number" class="form-control form-control-sm text-center" 
+                                                       value="<%= item.quantity %>" min="1" max="10" 
+                                                                                                                onchange="updateQuantity('<%= item.product._id %>', 0, this.value)">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity('<%= item.product._id %>', 1)">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-3 text-end">
+                                            <div class="price">
+                                                <% if (item.product.discount > 0) { %>
+                                                    <div class="text-decoration-line-through text-muted small">
+                                                        <%= (item.product.originalPrice * item.quantity).toLocaleString('tr-TR') %> TL
+                                                    </div>
+                                                <% } %>
+                                                <div class="fw-bold text-danger">
+                                                    <%= (item.product.price * item.quantity).toLocaleString('tr-TR') %> TL
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-3 text-end">
+                                            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('<%= item.product._id %>')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Sipariş Özeti</h5>
+                        
+                        <div class="summary-item d-flex justify-content-between mb-2">
+                            <span>Ara Toplam:</span>
+                            <span id="subtotal"><%= subtotal.toLocaleString('tr-TR') %> TL</span>
+                        </div>
+                        
+                        <% if (discount > 0) { %>
+                            <div class="summary-item d-flex justify-content-between mb-2 text-success">
+                                <span>İndirim:</span>
+                                <span>-<%= discount.toLocaleString('tr-TR') %> TL</span>
+                            </div>
+                        <% } %>
+                        
+                        <div class="summary-item d-flex justify-content-between mb-2">
+                            <span>Kargo:</span>
+                            <span id="shipping">
+                                <% if (subtotal >= 150) { %>
+                                    <span class="text-success">Ücretsiz</span>
+                                <% } else { %>
+                                    <%= shipping.toLocaleString('tr-TR') %> TL
+                                <% } %>
+                            </span>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="summary-item d-flex justify-content-between mb-3">
+                            <strong>Toplam:</strong>
+                            <strong class="text-danger" id="total"><%= total.toLocaleString('tr-TR') %> TL</strong>
+                        </div>
+                        
+                                                            <a href="/checkout" class="btn btn-danger w-100 mb-2">
+                                        <i class="fas fa-credit-card me-2"></i>Ödemeye Geç
+                                    </a>
+                        
+                        <button class="btn btn-outline-danger w-100" onclick="clearCart()">
+                            <i class="fas fa-trash me-2"></i>Sepeti Temizle
+                        </button>
+                        
+                        <% if (subtotal < 150) { %>
+                            <div class="alert alert-info mt-3 mb-0">
+                                <small>
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    <%= (150 - subtotal).toLocaleString('tr-TR') %> TL daha alışveriş yapın, kargo ücretsiz olsun!
+                                </small>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                
+                <!-- Continue Shopping -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h6 class="card-title">Alışverişe Devam Et</h6>
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <a href="/products?category=Erkek" class="btn btn-outline-secondary btn-sm w-100">
+                                    Erkek
+                                </a>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <a href="/products?category=Kadın" class="btn btn-outline-secondary btn-sm w-100">
+                                    Kadın
+                                </a>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <a href="/products?category=Çocuk" class="btn btn-outline-secondary btn-sm w-100">
+                                    Çocuk
+                                </a>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <a href="/products?category=Spor" class="btn btn-outline-secondary btn-sm w-100">
+                                    Spor
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <% } else { %>
+        <!-- Empty Cart -->
+        <div class="text-center py-5">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart fa-4x text-muted mb-4"></i>
+                <h3>Sepetiniz Boş</h3>
+                <p class="text-muted mb-4">Henüz sepetinize ürün eklemediniz.</p>
+                <a href="/products" class="btn btn-danger">
+                    <i class="fas fa-shopping-bag me-2"></i>Alışverişe Başla
+                </a>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<style>
+.cart-item {
+    transition: background-color 0.2s;
+}
+
+.cart-item:hover {
+    background-color: #f8f9fa;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    max-width: 120px;
+}
+
+.quantity-selector input {
+    border-left: none;
+    border-right: none;
+    text-align: center;
+    width: 50px;
+}
+
+.quantity-selector .btn {
+    border-radius: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-selector .btn:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.quantity-selector .btn:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.summary-item {
+    font-size: 0.9rem;
+}
+
+.empty-cart {
+    max-width: 400px;
+    margin: 0 auto;
+}
+</style>
+
+<script>
+function updateQuantity(productId, delta, newValue = null) {
+    let quantity;
+    
+    if (newValue !== null) {
+        quantity = parseInt(newValue);
+    } else {
+        const currentInput = document.querySelector(`[data-product-id="${productId}"] input`);
+        const currentValue = parseInt(currentInput.value);
+        quantity = currentValue + delta;
+    }
+    
+    if (quantity < 1) quantity = 1;
+    if (quantity > 10) quantity = 10;
+    
+    fetch('/cart/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            productId: productId,
+            quantity: quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateCartDisplay(data);
+            showToast('Sepet güncellendi', 'success');
+        } else {
+            showToast(data.message || 'Bir hata oluştu', 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Bir hata oluştu', 'error');
+    });
+}
+
+function removeFromCart(productId) {
+    if (confirm('Bu ürünü sepetten çıkarmak istediğinizden emin misiniz?')) {
+        fetch('/cart/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productId: productId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateCartDisplay(data);
+                showToast('Ürün sepetten çıkarıldı', 'success');
+                
+                // Eğer sepet boşsa sayfayı yenile
+                if (data.cart.length === 0) {
+                    location.reload();
+                }
+            } else {
+                showToast(data.message || 'Bir hata oluştu', 'error');
+            }
+        })
+        .catch(error => {
+            showToast('Bir hata oluştu', 'error');
+        });
+    }
+}
+
+function clearCart() {
+    if (confirm('Sepeti tamamen temizlemek istediğinizden emin misiniz?')) {
+        fetch('/cart/clear', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+                showToast('Sepet temizlendi', 'success');
+            } else {
+                showToast(data.message || 'Bir hata oluştu', 'error');
+            }
+        })
+        .catch(error => {
+            showToast('Bir hata oluştu', 'error');
+        });
+    }
+}
+
+function updateCartDisplay(data) {
+    // Sepet sayısını güncelle
+    const cartCountElement = document.querySelector('.cart-count');
+    if (cartCountElement) {
+        cartCountElement.textContent = data.cartCount;
+    }
+    
+    // Fiyatları güncelle
+    if (data.subtotal !== undefined) {
+        document.getElementById('subtotal').textContent = data.subtotal.toLocaleString('tr-TR') + ' TL';
+    }
+    
+    if (data.total !== undefined) {
+        document.getElementById('total').textContent = data.total.toLocaleString('tr-TR') + ' TL';
+    }
+    
+    if (data.shipping !== undefined) {
+        const shippingElement = document.getElementById('shipping');
+        if (data.subtotal >= 150) {
+            shippingElement.innerHTML = '<span class="text-success">Ücretsiz</span>';
+        } else {
+            shippingElement.textContent = data.shipping.toLocaleString('tr-TR') + ' TL';
+        }
+    }
+}
+
+function proceedToCheckout() {
+    // Kullanıcı girişi kontrolü
+    <% if (!user) { %>
+        showToast('Ödeme yapmak için giriş yapmalısınız', 'error');
+        setTimeout(() => {
+            window.location.href = '/auth/login?redirect=/cart';
+        }, 2000);
+    <% } else { %>
+        showToast('Ödeme sayfasına yönlendiriliyorsunuz...', 'info');
+        // Gerçek uygulamada ödeme sayfasına yönlendirme
+        setTimeout(() => {
+            window.location.href = '/checkout';
+        }, 1000);
+    <% } %>
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+</script> 

@@ -1,0 +1,313 @@
+<!-- Register Page -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-danger">Kayıt Ol</h2>
+                        <p class="text-muted">Yeni hesap oluşturun</p>
+                    </div>
+
+                    <% if (locals.error) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <%= error %>
+                        </div>
+                    <% } %>
+
+                    <% if (locals.success) { %>
+                        <div class="alert alert-success" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <%= success %>
+                        </div>
+                    <% } %>
+
+                    <form action="/auth/register" method="POST" id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Ad</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" 
+                                       placeholder="Adınız" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Soyad</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" 
+                                       placeholder="Soyadınız" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-posta Adresi</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       placeholder="ornek@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Telefon Numarası</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                                <input type="tel" class="form-control" id="phone" name="phone" 
+                                       placeholder="+90 555 123 4567" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Şifre</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="password" name="password" 
+                                       placeholder="En az 6 karakter" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                <small>Şifreniz en az 6 karakter olmalıdır</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Şifre Tekrar</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" 
+                                       placeholder="Şifrenizi tekrar girin" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="street" class="form-label">Adres</label>
+                            <input type="text" class="form-control" id="street" name="street" 
+                                   placeholder="Mahalle, Sokak, No" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="city" class="form-label">Şehir</label>
+                                <select class="form-select" id="city" name="city" required>
+                                    <option value="">Şehir seçin</option>
+                                    <option value="İstanbul">İstanbul</option>
+                                    <option value="Ankara">Ankara</option>
+                                    <option value="İzmir">İzmir</option>
+                                    <option value="Bursa">Bursa</option>
+                                    <option value="Antalya">Antalya</option>
+                                    <option value="Adana">Adana</option>
+                                    <option value="Konya">Konya</option>
+                                    <option value="Gaziantep">Gaziantep</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="district" class="form-label">İlçe</label>
+                                <input type="text" class="form-control" id="district" name="district" 
+                                       placeholder="İlçe" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="postalCode" class="form-label">Posta Kodu</label>
+                                <input type="text" class="form-control" id="postalCode" name="postalCode" 
+                                       placeholder="34000" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                            <label class="form-check-label" for="terms">
+                                <a href="#" class="text-danger">Kullanım şartları</a>nı ve 
+                                <a href="#" class="text-danger">gizlilik politikası</a>nı kabul ediyorum
+                            </label>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="newsletter" name="newsletter">
+                            <label class="form-check-label" for="newsletter">
+                                Kampanya ve indirimlerden haberdar olmak istiyorum
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100 mb-3">
+                            <i class="fas fa-user-plus me-2"></i>Kayıt Ol
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="mb-0">
+                            Zaten hesabınız var mı? 
+                            <a href="/auth/login" class="text-danger text-decoration-none">Giriş Yap</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+}
+
+.form-control, .form-select {
+    border-left: none;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: #ff6b6b;
+}
+
+.btn-danger {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-danger:hover {
+    background-color: #ff5252;
+    border-color: #ff5252;
+}
+
+.form-check-input:checked {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+</style>
+
+<script>
+// Şifre göster/gizle
+document.getElementById('togglePassword').addEventListener('click', function() {
+    const password = document.getElementById('password');
+    const icon = this.querySelector('i');
+    
+    if (password.type === 'password') {
+        password.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        password.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+});
+
+// Form validasyonu
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const phone = document.getElementById('phone').value;
+    const terms = document.getElementById('terms').checked;
+    
+    // Temel validasyonlar
+    if (!email || !password || !confirmPassword || !firstName || !lastName || !phone) {
+        e.preventDefault();
+        showToast('Lütfen tüm zorunlu alanları doldurun', 'error');
+        return false;
+    }
+    
+    if (!isValidEmail(email)) {
+        e.preventDefault();
+        showToast('Geçerli bir e-posta adresi girin', 'error');
+        return false;
+    }
+    
+    if (password.length < 6) {
+        e.preventDefault();
+        showToast('Şifre en az 6 karakter olmalıdır', 'error');
+        return false;
+    }
+    
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        showToast('Şifreler eşleşmiyor', 'error');
+        return false;
+    }
+    
+    if (!isValidPhone(phone)) {
+        e.preventDefault();
+        showToast('Geçerli bir telefon numarası girin', 'error');
+        return false;
+    }
+    
+    if (!terms) {
+        e.preventDefault();
+        showToast('Kullanım şartlarını kabul etmelisiniz', 'error');
+        return false;
+    }
+});
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function isValidPhone(phone) {
+    const phoneRegex = /^(\+90|0)?[0-9]{10}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+}
+
+function showToast(message, type = 'info') {
+    // Toast notification gösterimi
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+// Şehir seçildiğinde ilçe önerileri
+document.getElementById('city').addEventListener('change', function() {
+    const city = this.value;
+    const districtInput = document.getElementById('district');
+    
+    // Basit ilçe önerileri (gerçek uygulamada API'den gelir)
+    const districts = {
+        'İstanbul': ['Kadıköy', 'Beşiktaş', 'Şişli', 'Beyoğlu', 'Fatih'],
+        'Ankara': ['Çankaya', 'Keçiören', 'Mamak', 'Yenimahalle', 'Etimesgut'],
+        'İzmir': ['Konak', 'Bornova', 'Karşıyaka', 'Buca', 'Çiğli']
+    };
+    
+    if (districts[city]) {
+        districtInput.placeholder = `${city} ilçeleri: ${districts[city].join(', ')}`;
+    } else {
+        districtInput.placeholder = 'İlçe';
+    }
+});
+</script> 

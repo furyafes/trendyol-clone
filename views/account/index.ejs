@@ -1,0 +1,212 @@
+<!-- Account Dashboard -->
+<div class="container py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <div class="avatar mb-3">
+                            <i class="fas fa-user-circle fa-4x text-danger"></i>
+                        </div>
+                        <h5><%= user.firstName %> <%= user.lastName %></h5>
+                        <p class="text-muted"><%= user.email %></p>
+                    </div>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="/account">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a class="nav-link" href="/account/profile">
+                            <i class="fas fa-user me-2"></i>Profil Bilgileri
+                        </a>
+                        <a class="nav-link" href="/account/orders">
+                            <i class="fas fa-shopping-bag me-2"></i>Siparişlerim
+                        </a>
+                        <a class="nav-link" href="/account/addresses">
+                            <i class="fas fa-map-marker-alt me-2"></i>Adreslerim
+                        </a>
+                        <a class="nav-link" href="/account/change-password">
+                            <i class="fas fa-lock me-2"></i>Şifre Değiştir
+                        </a>
+                        <hr>
+                        <a class="nav-link text-danger" href="/auth/logout">
+                            <i class="fas fa-sign-out-alt me-2"></i>Çıkış Yap
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <h2 class="mb-4">Hesap Özeti</h2>
+            
+            <!-- Quick Stats -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">5</h4>
+                                    <small>Toplam Sipariş</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-shopping-bag fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">3</h4>
+                                    <small>Tamamlanan</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">2</h4>
+                                    <small>Bekleyen</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-clock fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Son Siparişler</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sipariş No</th>
+                                    <th>Tarih</th>
+                                    <th>Tutar</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#12345</td>
+                                    <td>15.01.2024</td>
+                                    <td>299.99 TL</td>
+                                    <td><span class="badge bg-success">Tamamlandı</span></td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Detay</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#12344</td>
+                                    <td>12.01.2024</td>
+                                    <td>159.99 TL</td>
+                                    <td><span class="badge bg-warning">Kargoda</span></td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Detay</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#12343</td>
+                                    <td>10.01.2024</td>
+                                    <td>89.99 TL</td>
+                                    <td><span class="badge bg-info">Hazırlanıyor</span></td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Detay</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Info -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Kişisel Bilgiler</h6>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Ad Soyad:</strong> <%= user.firstName %> <%= user.lastName %></p>
+                            <p><strong>E-posta:</strong> <%= user.email %></p>
+                            <p><strong>Telefon:</strong> <%= user.phone %></p>
+                            <a href="/account/profile" class="btn btn-outline-primary btn-sm">Düzenle</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Varsayılan Adres</h6>
+                        </div>
+                        <div class="card-body">
+                            <p><%= user.address.street %></p>
+                            <p><%= user.address.district %>, <%= user.address.city %></p>
+                            <p><%= user.address.postalCode %></p>
+                            <a href="/account/addresses" class="btn btn-outline-primary btn-sm">Adresleri Yönet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.nav-link {
+    color: #6c757d;
+    border-radius: 0.375rem;
+    margin-bottom: 0.25rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #f8f9fa;
+    color: #ff6b6b;
+}
+
+.nav-link.text-danger:hover {
+    background-color: #fff5f5;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+</style> 

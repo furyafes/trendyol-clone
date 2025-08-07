@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "name": "Nike Air Max 270 Erkek Spor Ayakkabı",
+    "price": 1299.99,
+    "originalPrice": 1599.99,
+    "discount": 19,
+    "brand": "Nike",
+    "category": "Spor Ayakkabı",
+    "images": [
+      "/images/nike-air-max-270-1.jpg",
+      "/images/nike-air-max-270-2.jpg",
+      "/images/nike-air-max-270-3.jpg"
+    ],
+    "description": "Günlük kullanım için tasarlanmış, maksimum konfor sağlayan Nike Air Max 270 spor ayakkabı.",
+    "sizes": ["39", "40", "41", "42", "43", "44"],
+    "colors": ["Siyah", "Beyaz", "Gri"],
+    "rating": 4.5,
+    "reviewCount": 1247,
+    "inStock": true,
+    "featured": true
+  },
+  {
+    "id": 2,
+    "name": "Samsung Galaxy A54 5G 128GB Akıllı Telefon",
+    "price": 8999.99,
+    "originalPrice": 10999.99,
+    "discount": 18,
+    "brand": "Samsung",
+    "category": "Elektronik",
+    "images": [
+      "/images/samsung-galaxy-a54-1.jpg",
+      "/images/samsung-galaxy-a54-2.jpg",
+      "/images/samsung-galaxy-a54-3.jpg"
+    ],
+    "description": "5G desteği, 50MP kamera ve uzun pil ömrü ile Samsung Galaxy A54 5G.",
+    "sizes": ["128GB", "256GB"],
+    "colors": ["Siyah", "Beyaz", "Mavi"],
+    "rating": 4.3,
+    "reviewCount": 892,
+    "inStock": true,
+    "featured": true
+  },
+  {
+    "id": 3,
+    "name": "Apple MacBook Air M2 13.6 inç Laptop",
+    "price": 42999.99,
+    "originalPrice": 45999.99,
+    "discount": 7,
+    "brand": "Apple",
+    "category": "Bilgisayar",
+    "images": [
+      "/images/macbook-air-m2-1.jpg",
+      "/images/macbook-air-m2-2.jpg",
+      "/images/macbook-air-m2-3.jpg"
+    ],
+    "description": "M2 çip ile güçlendirilmiş, ince ve hafif MacBook Air.",
+    "sizes": ["256GB", "512GB", "1TB"],
+    "colors": ["Gümüş", "Uzay Grisi", "Altın"],
+    "rating": 4.8,
+    "reviewCount": 567,
+    "inStock": true,
+    "featured": false
+  },
+  {
+    "id": 4,
+    "name": "Adidas Originals Superstar Erkek Sneaker",
+    "price": 899.99,
+    "originalPrice": 1199.99,
+    "discount": 25,
+    "brand": "Adidas",
+    "category": "Sneaker",
+    "images": [
+      "/images/adidas-superstar-1.jpg",
+      "/images/adidas-superstar-2.jpg",
+      "/images/adidas-superstar-3.jpg"
+    ],
+    "description": "Klasik tasarım ve konforlu kullanım için Adidas Originals Superstar.",
+    "sizes": ["39", "40", "41", "42", "43", "44", "45"],
+    "colors": ["Beyaz", "Siyah", "Kırmızı"],
+    "rating": 4.6,
+    "reviewCount": 2156,
+    "inStock": true,
+    "featured": false
+  },
+  {
+    "id": 5,
+    "name": "Sony WH-1000XM4 Kablosuz Kulaklık",
+    "price": 5999.99,
+    "originalPrice": 7499.99,
+    "discount": 20,
+    "brand": "Sony",
+    "category": "Kulaklık",
+    "images": [
+      "/images/sony-wh1000xm4-1.jpg",
+      "/images/sony-wh1000xm4-2.jpg",
+      "/images/sony-wh1000xm4-3.jpg"
+    ],
+    "description": "Gürültü engelleme teknolojisi ile premium ses deneyimi.",
+    "sizes": ["Tek Boyut"],
+    "colors": ["Siyah", "Gümüş"],
+    "rating": 4.7,
+    "reviewCount": 743,
+    "inStock": true,
+    "featured": true
+  },
+  {
+    "id": 6,
+    "name": "Levi's 501 Original Fit Erkek Kot Pantolon",
+    "price": 399.99,
+    "originalPrice": 599.99,
+    "discount": 33,
+    "brand": "Levi's",
+    "category": "Kot Pantolon",
+    "images": [
+      "/images/levis-501-1.jpg",
+      "/images/levis-501-2.jpg",
+      "/images/levis-501-3.jpg"
+    ],
+    "description": "Klasik 501 fit ile rahat ve şık görünüm.",
+    "sizes": ["28", "30", "32", "34", "36", "38"],
+    "colors": ["Mavi", "Siyah", "Gri"],
+    "rating": 4.4,
+    "reviewCount": 1892,
+    "inStock": true,
+    "featured": false
+  },
+  {
+    "id": 7,
+    "name": "Philips Hue White and Color Ambiance LED Ampul",
+    "price": 299.99,
+    "originalPrice": 399.99,
+    "discount": 25,
+    "brand": "Philips",
+    "category": "Aydınlatma",
+    "images": [
+      "/images/philips-hue-1.jpg",
+      "/images/philips-hue-2.jpg",
+      "/images/philips-hue-3.jpg"
+    ],
+    "description": "16 milyon renk seçeneği ile akıllı ev aydınlatması.",
+    "sizes": ["E27"],
+    "colors": ["Çok Renkli"],
+    "rating": 4.5,
+    "reviewCount": 456,
+    "inStock": true,
+    "featured": false
+  },
+  {
+    "id": 8,
+    "name": "Dyson V15 Detect Absolute Extra Kablosuz Süpürge",
+    "price": 15999.99,
+    "originalPrice": 18999.99,
+    "discount": 16,
+    "brand": "Dyson",
+    "category": "Ev Aletleri",
+    "images": [
+      "/images/dyson-v15-1.jpg",
+      "/images/dyson-v15-2.jpg",
+      "/images/dyson-v15-3.jpg"
+    ],
+    "description": "Lazer teknolojisi ile toz tespiti ve güçlü emiş gücü.",
+    "sizes": ["Tek Boyut"],
+    "colors": ["Gümüş", "Altın"],
+    "rating": 4.9,
+    "reviewCount": 234,
+    "inStock": true,
+    "featured": true
+  }
+] 

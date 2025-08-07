@@ -1,0 +1,85 @@
+<!-- Error Page -->
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="error-page">
+                <h1 class="display-1 text-danger">500</h1>
+                <h2 class="mb-4">Bir Hata Oluştu</h2>
+                <p class="lead mb-4">Üzgünüz, bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+                
+                <% if (locals.error && process.env.NODE_ENV === 'development') { %>
+                    <div class="alert alert-danger text-start">
+                        <h6>Hata Detayları:</h6>
+                        <pre class="mb-0"><%= error.stack %></pre>
+                    </div>
+                <% } %>
+                
+                <div class="mb-4">
+                    <a href="/" class="btn btn-danger me-3">
+                        <i class="fas fa-home me-2"></i>Ana Sayfa
+                    </a>
+                    <button onclick="history.back()" class="btn btn-outline-danger">
+                        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                    </button>
+                </div>
+                
+                <div class="help-section">
+                    <h5>Yardıma mı ihtiyacınız var?</h5>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <a href="/products" class="text-decoration-none">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-shopping-bag fa-2x text-danger mb-2"></i>
+                                        <h6>Ürünleri Keşfet</h6>
+                                        <small class="text-muted">Yeni ürünleri inceleyin</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="/auth/login" class="text-decoration-none">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-user fa-2x text-danger mb-2"></i>
+                                        <h6>Hesabınıza Giriş</h6>
+                                        <small class="text-muted">Siparişlerinizi takip edin</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    padding: 2rem 0;
+}
+
+.error-page .display-1 {
+    font-size: 8rem;
+    font-weight: 300;
+}
+
+.help-section .card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #e9ecef;
+}
+
+.help-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    overflow-x: auto;
+}
+</style> 

@@ -1,0 +1,151 @@
+<!-- Hero Section -->
+<section class="hero-section bg-danger text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold mb-3">Alışverişin Adresi</h1>
+                <p class="lead mb-4">Milyonlarca ürün, uygun fiyatlar ve hızlı kargo ile Trendyol'da!</p>
+                <a href="/products" class="btn btn-light btn-lg">Alışverişe Başla</a>
+            </div>
+            <div class="col-md-6">
+                <img src="https://via.placeholder.com/600x400/ff6b6b/ffffff?text=Trendyol" alt="Trendyol" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="mb-5">
+    <div class="container">
+        <h2 class="mb-4">Öne Çıkan Ürünler</h2>
+        <div class="row">
+            <% featuredProducts.forEach(product => { %>
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card h-100 product-card">
+                        <div class="position-relative">
+                            <img src="https://via.placeholder.com/300x300/ff6b6b/ffffff?text=<%= encodeURIComponent(product.name) %>" 
+                                 class="card-img-top" alt="<%= product.name %>">
+                            <% if (product.discount > 0) { %>
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                                    %<%= product.discount %> İndirim
+                                </span>
+                            <% } %>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title"><%= product.name %></h6>
+                            <p class="card-text text-muted small"><%= product.brand %></p>
+                            <div class="mb-2">
+                                <span class="text-danger fw-bold fs-5"><%= product.price.toLocaleString('tr-TR') %> ₺</span>
+                                <% if (product.originalPrice > product.price) { %>
+                                    <span class="text-muted text-decoration-line-through ms-2">
+                                        <%= product.originalPrice.toLocaleString('tr-TR') %> ₺
+                                    </span>
+                                <% } %>
+                            </div>
+                            <div class="mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="text-warning me-1">
+                                        <% for (let i = 0; i < Math.floor(product.rating); i++) { %>
+                                            <i class="fas fa-star"></i>
+                                        <% } %>
+                                        <% if (product.rating % 1 !== 0) { %>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        <% } %>
+                                        <% for (let i = Math.ceil(product.rating); i < 5; i++) { %>
+                                            <i class="far fa-star"></i>
+                                        <% } %>
+                                    </div>
+                                    <small class="text-muted">(<%= product.reviewCount %>)</small>
+                                </div>
+                            </div>
+                            <div class="mt-auto">
+                                <button class="btn btn-outline-danger w-100 add-to-cart" 
+                                        data-product-id="<%= product._id %>">
+                                    <i class="fas fa-shopping-cart me-2"></i>Sepete Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Discounted Products -->
+<section class="mb-5">
+    <div class="container">
+        <h2 class="mb-4">İndirimli Ürünler</h2>
+        <div class="row">
+            <% discountedProducts.forEach(product => { %>
+                <div class="col-md-2 col-sm-4 col-6 mb-4">
+                    <div class="card h-100 product-card">
+                        <div class="position-relative">
+                            <img src="https://via.placeholder.com/200x200/ff6b6b/ffffff?text=<%= encodeURIComponent(product.name.substring(0, 10)) %>" 
+                                 class="card-img-top" alt="<%= product.name %>">
+                            <span class="badge bg-danger position-absolute top-0 start-0 m-1">
+                                %<%= product.discount %>
+                            </span>
+                        </div>
+                        <div class="card-body d-flex flex-column p-2">
+                            <h6 class="card-title small"><%= product.name.substring(0, 30) %>...</h6>
+                            <div class="mb-2">
+                                <span class="text-danger fw-bold"><%= product.price.toLocaleString('tr-TR') %> ₺</span>
+                                <span class="text-muted text-decoration-line-through small">
+                                    <%= product.originalPrice.toLocaleString('tr-TR') %> ₺
+                                </span>
+                            </div>
+                            <div class="mt-auto">
+                                <button class="btn btn-sm btn-outline-danger w-100 add-to-cart" 
+                                        data-product-id="<%= product._id %>">
+                                    Sepete Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="mb-5">
+    <div class="container">
+        <h2 class="mb-4">Kategoriler</h2>
+        <div class="row">
+            <% categories.forEach(category => { %>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <a href="/products?category=<%= encodeURIComponent(category) %>" class="text-decoration-none">
+                        <div class="card category-card text-center">
+                            <div class="card-body">
+                                <i class="fas fa-tag fs-1 text-danger mb-3"></i>
+                                <h5 class="card-title"><%= category %></h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Brands -->
+<section class="mb-5">
+    <div class="container">
+        <h2 class="mb-4">Popüler Markalar</h2>
+        <div class="row">
+            <% brands.forEach(brand => { %>
+                <div class="col-md-2 col-sm-4 col-6 mb-3">
+                    <a href="/products?brand=<%= encodeURIComponent(brand) %>" class="text-decoration-none">
+                        <div class="card brand-card text-center">
+                            <div class="card-body">
+                                <h6 class="card-title"><%= brand %></h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section> 

@@ -1,0 +1,210 @@
+<!-- Login Page -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-danger">Giriş Yap</h2>
+                        <p class="text-muted">Hesabınıza giriş yapın</p>
+                    </div>
+
+                    <% if (locals.error) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <%= error %>
+                        </div>
+                    <% } %>
+
+                    <% if (locals.success) { %>
+                        <div class="alert alert-success" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <%= success %>
+                        </div>
+                    <% } %>
+
+                    <form action="/auth/login" method="POST" id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-posta Adresi</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       placeholder="ornek@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Şifre</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="password" name="password" 
+                                       placeholder="Şifrenizi girin" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Beni hatırla
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100 mb-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="mb-2">
+                            Hesabınız yok mu? 
+                            <a href="/auth/register" class="text-danger text-decoration-none">Kayıt Ol</a>
+                        </p>
+                        <a href="#" class="text-muted text-decoration-none small">Şifremi unuttum</a>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="demo-accounts">
+                        <h6 class="text-center mb-3">Demo Hesaplar</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-outline-secondary btn-sm w-100 mb-2" 
+                                        onclick="fillDemoAccount('demo@trendyol.com', 'demo123')">
+                                    Demo 1
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-outline-secondary btn-sm w-100 mb-2" 
+                                        onclick="fillDemoAccount('test@trendyol.com', 'test123')">
+                                    Demo 2
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+}
+
+.form-control {
+    border-left: none;
+}
+
+.form-control:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: #ff6b6b;
+}
+
+.btn-danger {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-danger:hover {
+    background-color: #ff5252;
+    border-color: #ff5252;
+}
+
+.demo-accounts {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+</style>
+
+<script>
+// Şifre göster/gizle
+document.getElementById('togglePassword').addEventListener('click', function() {
+    const password = document.getElementById('password');
+    const icon = this.querySelector('i');
+    
+    if (password.type === 'password') {
+        password.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        password.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+});
+
+// Demo hesap doldurma
+function fillDemoAccount(email, password) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = password;
+    document.getElementById('loginForm').submit();
+}
+
+// Form validasyonu
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    if (!email || !password) {
+        e.preventDefault();
+        showToast('Lütfen tüm alanları doldurun', 'error');
+        return false;
+    }
+    
+    if (!isValidEmail(email)) {
+        e.preventDefault();
+        showToast('Geçerli bir e-posta adresi girin', 'error');
+        return false;
+    }
+});
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function showToast(message, type = 'info') {
+    // Toast notification gösterimi
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+</script> 

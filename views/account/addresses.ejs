@@ -1,0 +1,235 @@
+<!-- Addresses Page -->
+<div class="container py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <div class="avatar mb-3">
+                            <i class="fas fa-user-circle fa-4x text-danger"></i>
+                        </div>
+                        <h5><%= user.firstName %> <%= user.lastName %></h5>
+                        <p class="text-muted"><%= user.email %></p>
+                    </div>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link" href="/account">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a class="nav-link" href="/account/profile">
+                            <i class="fas fa-user me-2"></i>Profil Bilgileri
+                        </a>
+                        <a class="nav-link" href="/account/orders">
+                            <i class="fas fa-shopping-bag me-2"></i>Siparişlerim
+                        </a>
+                        <a class="nav-link active" href="/account/addresses">
+                            <i class="fas fa-map-marker-alt me-2"></i>Adreslerim
+                        </a>
+                        <a class="nav-link" href="/account/change-password">
+                            <i class="fas fa-lock me-2"></i>Şifre Değiştir
+                        </a>
+                        <hr>
+                        <a class="nav-link text-danger" href="/auth/logout">
+                            <i class="fas fa-sign-out-alt me-2"></i>Çıkış Yap
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Adreslerim</h2>
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                    <i class="fas fa-plus me-2"></i>Yeni Adres Ekle
+                </button>
+            </div>
+            
+            <div class="row">
+                <!-- Default Address -->
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-home me-2"></i>Varsayılan Adres</span>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-light me-1" onclick="editAddress(1)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-light" onclick="deleteAddress(1)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6><%= user.firstName %> <%= user.lastName %></h6>
+                            <p class="mb-1"><%= user.address.street %></p>
+                            <p class="mb-1"><%= user.address.district %>, <%= user.address.city %></p>
+                            <p class="mb-1"><%= user.address.postalCode %></p>
+                            <p class="mb-0"><%= user.phone %></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Address -->
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-building me-2"></i>İş Adresi</span>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editAddress(2)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress(2)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6><%= user.firstName %> <%= user.lastName %></h6>
+                            <p class="mb-1">Atatürk Caddesi No:123</p>
+                            <p class="mb-1">Beşiktaş, İstanbul</p>
+                            <p class="mb-1">34353</p>
+                            <p class="mb-0"><%= user.phone %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Adres Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addressForm">
+                    <div class="mb-3">
+                        <label for="addressTitle" class="form-label">Adres Başlığı</label>
+                        <input type="text" class="form-control" id="addressTitle" name="title" 
+                               placeholder="Ev, İş, vb." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addressStreet" class="form-label">Adres</label>
+                        <input type="text" class="form-control" id="addressStreet" name="street" 
+                               placeholder="Mahalle, Sokak, No" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="addressCity" class="form-label">Şehir</label>
+                            <select class="form-select" id="addressCity" name="city" required>
+                                <option value="">Şehir seçin</option>
+                                <option value="İstanbul">İstanbul</option>
+                                <option value="Ankara">Ankara</option>
+                                <option value="İzmir">İzmir</option>
+                                <option value="Bursa">Bursa</option>
+                                <option value="Antalya">Antalya</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="addressDistrict" class="form-label">İlçe</label>
+                            <input type="text" class="form-control" id="addressDistrict" name="district" 
+                                   placeholder="İlçe" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="addressPostalCode" class="form-label">Posta Kodu</label>
+                            <input type="text" class="form-control" id="addressPostalCode" name="postalCode" 
+                                   placeholder="34000" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" onclick="saveAddress()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.nav-link {
+    color: #6c757d;
+    border-radius: 0.375rem;
+    margin-bottom: 0.25rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #f8f9fa;
+    color: #ff6b6b;
+}
+
+.nav-link.text-danger:hover {
+    background-color: #fff5f5;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+</style>
+
+<script>
+function editAddress(id) {
+    // Adres düzenleme fonksiyonu
+    alert('Adres düzenleme özelliği yakında eklenecek!');
+}
+
+function deleteAddress(id) {
+    if (confirm('Bu adresi silmek istediğinizden emin misiniz?')) {
+        // Adres silme işlemi
+        alert('Adres silindi!');
+    }
+}
+
+function saveAddress() {
+    const form = document.getElementById('addressForm');
+    const formData = new FormData(form);
+    
+    // Form validasyonu
+    const title = formData.get('title');
+    const street = formData.get('street');
+    const city = formData.get('city');
+    const district = formData.get('district');
+    const postalCode = formData.get('postalCode');
+    
+    if (!title || !street || !city || !district || !postalCode) {
+        alert('Lütfen tüm alanları doldurun!');
+        return;
+    }
+    
+    // Adres kaydetme işlemi
+    alert('Adres başarıyla kaydedildi!');
+    
+    // Modal'ı kapat
+    const modal = bootstrap.Modal.getInstance(document.getElementById('addAddressModal'));
+    modal.hide();
+    
+    // Formu temizle
+    form.reset();
+}
+</script> 

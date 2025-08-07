@@ -1,0 +1,77 @@
+<!-- 404 Error Page -->
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="error-page">
+                <h1 class="display-1 text-muted">404</h1>
+                <h2 class="mb-4">Sayfa Bulunamadı</h2>
+                <p class="lead mb-4">Aradığınız sayfa mevcut değil veya taşınmış olabilir.</p>
+                <div class="mb-4">
+                    <a href="/" class="btn btn-danger me-3">
+                        <i class="fas fa-home me-2"></i>Ana Sayfa
+                    </a>
+                    <a href="/products" class="btn btn-outline-danger">
+                        <i class="fas fa-shopping-bag me-2"></i>Ürünler
+                    </a>
+                </div>
+                <div class="search-suggestion">
+                    <h5>Belki aradığınız:</h5>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <a href="/products?category=Erkek" class="text-decoration-none">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-male fa-2x text-danger mb-2"></i>
+                                        <h6>Erkek</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/products?category=Kadın" class="text-decoration-none">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-female fa-2x text-danger mb-2"></i>
+                                        <h6>Kadın</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/products?category=Çocuk" class="text-decoration-none">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-baby fa-2x text-danger mb-2"></i>
+                                        <h6>Çocuk</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    padding: 2rem 0;
+}
+
+.error-page .display-1 {
+    font-size: 8rem;
+    font-weight: 300;
+    color: #dee2e6;
+}
+
+.search-suggestion .card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #e9ecef;
+}
+
+.search-suggestion .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+</style> 

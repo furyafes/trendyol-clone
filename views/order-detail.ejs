@@ -1,0 +1,451 @@
+<!-- Order Detail Page -->
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Ana Sayfa</a></li>
+            <li class="breadcrumb-item"><a href="/account/orders" class="text-decoration-none">Siparişlerim</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sipariş #<%= order.orderNumber %></li>
+        </ol>
+    </nav>
+
+    <!-- Order Header -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="mb-2">Sipariş #<%= order.orderNumber %></h2>
+            <p class="text-muted mb-0">
+                <i class="fas fa-calendar me-2"></i>
+                <%= new Date(order.createdAt).toLocaleDateString('tr-TR', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) %>
+            </p>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="order-status">
+                <% 
+                const statusConfig = {
+                    'pending': { class: 'warning', text: 'Beklemede', icon: 'clock' },
+                    'processing': { class: 'info', text: 'Hazırlanıyor', icon: 'cog' },
+                    'shipped': { class: 'primary', text: 'Kargoda', icon: 'truck' },
+                    'delivered': { class: 'success', text: 'Teslim Edildi', icon: 'check-circle' },
+                    'cancelled': { class: 'danger', text: 'İptal Edildi', icon: 'times-circle' }
+                };
+                const status = statusConfig[order.status] || statusConfig.pending;
+                %>
+                <span class="badge bg-<%= status.class %> fs-6">
+                    <i class="fas fa-<%= status.icon %> me-2"></i><%= status.text %>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Order Items -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-shopping-bag me-2"></i>Sipariş Ürünleri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <% order.items.forEach((item, index) => { %>
+                        <div class="order-item mb-3 pb-3 border-bottom">
+                            <div class="row align-items-center">
+                                <div class="col-md-2 col-sm-3">
+                                    <img src="<%= item.productImage %>" class="img-fluid rounded" alt="<%= item.productName %>">
+                                </div>
+                                <div class="col-md-6 col-sm-9">
+                                    <h6 class="mb-1"><%= item.productName %></h6>
+                                    <% if (item.size) { %>
+                                        <small class="text-muted">Beden: <%= item.size %></small>
+                                    <% } %>
+                                    <% if (item.color) { %>
+                                        <small class="text-muted ms-2">Renk: <%= item.color %></small>
+                                    <% } %>
+                                    <div class="mt-1">
+                                        <small class="text-muted">Adet: <%= item.quantity %></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-6 text-end">
+                                    <div class="price">
+                                        <div class="fw-bold text-danger">
+                                            <%= item.total.toFixed(2) %> TL
+                                        </div>
+                                        <small class="text-muted">
+                                            Birim: <%= item.price.toFixed(2) %> TL
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-6 text-end">
+                                    <a href="/products/<%= item.productId %>" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i>İncele
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+
+            <!-- Order Timeline -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history me-2"></i>Sipariş Geçmişi
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h6>Sipariş Alındı</h6>
+                                <p class="text-muted mb-0">
+                                    <%= new Date(order.createdAt).toLocaleDateString('tr-TR', { 
+                                        year: 'numeric', 
+                                        month: 'long', 
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    }) %>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <% if (order.status !== 'pending' && order.status !== 'cancelled') { %>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-info">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h6>Hazırlanıyor</h6>
+                                    <p class="text-muted mb-0">Siparişiniz hazırlanıyor</p>
+                                </div>
+                            </div>
+                        <% } %>
+                        
+                        <% if (order.status === 'shipped' || order.status === 'delivered') { %>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-primary">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h6>Kargoya Verildi</h6>
+                                    <p class="text-muted mb-0">Siparişiniz kargoya verildi</p>
+                                </div>
+                            </div>
+                        <% } %>
+                        
+                        <% if (order.status === 'delivered') { %>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-success">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h6>Teslim Edildi</h6>
+                                    <p class="text-muted mb-0">Siparişiniz teslim edildi</p>
+                                </div>
+                            </div>
+                        <% } %>
+                        
+                        <% if (order.status === 'cancelled') { %>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-danger">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h6>İptal Edildi</h6>
+                                    <p class="text-muted mb-0">
+                                        <%= order.cancellationReason || 'Sipariş iptal edildi' %>
+                                    </p>
+                                    <% if (order.cancelledAt) { %>
+                                        <small class="text-muted">
+                                            <%= new Date(order.cancelledAt).toLocaleDateString('tr-TR') %>
+                                        </small>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+            <!-- Order Info -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Sipariş Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Sipariş Numarası:</strong><br>
+                        <span class="text-muted"><%= order.orderNumber %></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Ödeme Yöntemi:</strong><br>
+                        <span class="text-muted">
+                            <% if (order.paymentMethod === 'card') { %>
+                                <i class="fas fa-credit-card me-1"></i>Kredi/Banka Kartı
+                            <% } else { %>
+                                <i class="fas fa-money-bill-wave me-1"></i>Kapıda Ödeme
+                            <% } %>
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Sipariş Durumu:</strong><br>
+                        <span class="badge bg-<%= status.class %>">
+                            <i class="fas fa-<%= status.icon %> me-1"></i><%= status.text %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map-marker-alt me-2"></i>Teslimat Adresi
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="shipping-address">
+                        <strong><%= order.shippingAddress.firstName %> <%= order.shippingAddress.lastName %></strong><br>
+                        <%= order.shippingAddress.address %><br>
+                        <%= order.shippingAddress.district %>, <%= order.shippingAddress.city %><br>
+                        <%= order.shippingAddress.postalCode %><br>
+                        <i class="fas fa-phone me-1"></i><%= order.shippingAddress.phone %><br>
+                        <i class="fas fa-envelope me-1"></i><%= order.shippingAddress.email %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calculator me-2"></i>Sipariş Özeti
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Ara Toplam:</span>
+                        <span><%= order.subtotal.toFixed(2) %> TL</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Kargo:</span>
+                        <span><%= order.shipping === 0 ? 'Ücretsiz' : order.shipping.toFixed(2) + ' TL' %></span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-0">
+                        <strong>Toplam:</strong>
+                        <strong class="text-danger fs-5"><%= order.total.toFixed(2) %> TL</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>İşlemler
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/account/orders" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Siparişlere Dön
+                        </a>
+                        
+                        <% if (['pending', 'processing'].includes(order.status)) { %>
+                            <button class="btn btn-outline-danger" onclick="cancelOrder()">
+                                <i class="fas fa-times me-2"></i>Siparişi İptal Et
+                            </button>
+                        <% } %>
+                        
+                        <% if (order.status === 'delivered') { %>
+                            <button class="btn btn-outline-primary">
+                                <i class="fas fa-star me-2"></i>Değerlendir
+                            </button>
+                        <% } %>
+                        
+                        <button class="btn btn-outline-info" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i>Yazdır
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Order Modal -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sipariş İptali</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Siparişinizi iptal etmek istediğinizden emin misiniz?</p>
+                <div class="mb-3">
+                    <label for="cancelReason" class="form-label">İptal Nedeni (İsteğe bağlı):</label>
+                    <textarea class="form-control" id="cancelReason" rows="3" 
+                              placeholder="İptal nedeninizi belirtebilirsiniz..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="button" class="btn btn-danger" onclick="confirmCancelOrder()">
+                    <i class="fas fa-times me-2"></i>Siparişi İptal Et
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e9ecef;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -22px;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+}
+
+.timeline-content {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ff6b6b;
+}
+
+.timeline-content h6 {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.order-item {
+    transition: background-color 0.2s;
+}
+
+.order-item:hover {
+    background-color: #f8f9fa;
+}
+
+.shipping-address {
+    line-height: 1.6;
+}
+
+@media print {
+    .btn, .modal, .breadcrumb {
+        display: none !important;
+    }
+    
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .card-header {
+        background-color: #f8f9fa !important;
+        border-bottom: 1px solid #dee2e6 !important;
+    }
+}
+</style>
+
+<script>
+function cancelOrder() {
+    const modal = new bootstrap.Modal(document.getElementById('cancelOrderModal'));
+    modal.show();
+}
+
+function confirmCancelOrder() {
+    const reason = document.getElementById('cancelReason').value;
+    
+    fetch('/orders/<%= order.orderNumber %>/cancel', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            reason: reason
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(data.message, 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            showToast(data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Bir hata oluştu', 'error');
+    });
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+</script> 

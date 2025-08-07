@@ -1,0 +1,249 @@
+<!-- Admin Users -->
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <div class="avatar mb-3">
+                            <i class="fas fa-user-shield fa-4x text-primary"></i>
+                        </div>
+                        <h5><%= user.firstName %> <%= user.lastName %></h5>
+                        <p class="text-muted">Admin Panel</p>
+                    </div>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link" href="/admin">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a class="nav-link active" href="/admin/users">
+                            <i class="fas fa-users me-2"></i>Kullanıcılar
+                        </a>
+                        <a class="nav-link" href="/admin/products">
+                            <i class="fas fa-box me-2"></i>Ürünler
+                        </a>
+                        <a class="nav-link" href="/admin/orders">
+                            <i class="fas fa-shopping-cart me-2"></i>Siparişler
+                        </a>
+                        <a class="nav-link" href="/admin/stats">
+                            <i class="fas fa-chart-bar me-2"></i>İstatistikler
+                        </a>
+                        <hr>
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-2"></i>Siteye Dön
+                        </a>
+                        <a class="nav-link text-danger" href="/auth/logout">
+                            <i class="fas fa-sign-out-alt me-2"></i>Çıkış Yap
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Kullanıcı Yönetimi</h2>
+                <div>
+                    <span class="badge bg-primary fs-6">Toplam: <%= users.length %> Kullanıcı</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ad Soyad</th>
+                                    <th>E-posta</th>
+                                    <th>Telefon</th>
+                                    <th>Rol</th>
+                                    <th>Kayıt Tarihi</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(userItem => { %>
+                                    <tr>
+                                        <td><%= userItem._id.toString().substring(0, 8) %>...</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm me-2">
+                                                    <i class="fas fa-user-circle fa-2x text-muted"></i>
+                                                </div>
+                                                <div>
+                                                    <strong><%= userItem.firstName %> <%= userItem.lastName %></strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><%= userItem.email %></td>
+                                        <td><%= userItem.phone || '-' %></td>
+                                        <td>
+                                            <% if (userItem.isAdmin) { %>
+                                                <span class="badge bg-danger">Admin</span>
+                                            <% } else { %>
+                                                <span class="badge bg-secondary">Kullanıcı</span>
+                                            <% } %>
+                                        </td>
+                                        <td><%= new Date(userItem.createdAt).toLocaleDateString('tr-TR') %></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="/admin/users/<%= userItem._id %>" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <% if (!userItem.isAdmin) { %>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteUser('<%= userItem._id %>')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kullanıcı Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu kullanıcıyı silmek istediğinizden emin misiniz?</p>
+                <p class="text-danger"><small>Bu işlem geri alınamaz!</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.nav-link {
+    color: #6c757d;
+    border-radius: 0.375rem;
+    margin-bottom: 0.25rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+
+.nav-link.text-danger:hover {
+    background-color: #fff5f5;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+.btn-group .btn {
+    margin-right: 2px;
+}
+</style>
+
+<script>
+let userIdToDelete = null;
+
+function deleteUser(userId) {
+    userIdToDelete = userId;
+    const modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+    modal.show();
+}
+
+document.getElementById('confirmDelete').addEventListener('click', async function() {
+    if (!userIdToDelete) return;
+    
+    try {
+        const response = await fetch(`/admin/users/${userIdToDelete}/delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast(data.message, 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } else {
+            showToast(data.error, 'error');
+        }
+    } catch (error) {
+        showToast('Bir hata oluştu', 'error');
+    }
+    
+    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteUserModal'));
+    modal.hide();
+});
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+</script> 

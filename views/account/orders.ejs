@@ -1,0 +1,130 @@
+<!-- Orders Page -->
+<div class="container py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <div class="avatar mb-3">
+                            <i class="fas fa-user-circle fa-4x text-danger"></i>
+                        </div>
+                        <h5><%= user.firstName %> <%= user.lastName %></h5>
+                        <p class="text-muted"><%= user.email %></p>
+                    </div>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link" href="/account">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a class="nav-link" href="/account/profile">
+                            <i class="fas fa-user me-2"></i>Profil Bilgileri
+                        </a>
+                        <a class="nav-link active" href="/account/orders">
+                            <i class="fas fa-shopping-bag me-2"></i>Siparişlerim
+                        </a>
+                        <a class="nav-link" href="/account/addresses">
+                            <i class="fas fa-map-marker-alt me-2"></i>Adreslerim
+                        </a>
+                        <a class="nav-link" href="/account/change-password">
+                            <i class="fas fa-lock me-2"></i>Şifre Değiştir
+                        </a>
+                        <hr>
+                        <a class="nav-link text-danger" href="/auth/logout">
+                            <i class="fas fa-sign-out-alt me-2"></i>Çıkış Yap
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <h2 class="mb-4">Siparişlerim</h2>
+            
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sipariş No</th>
+                                    <th>Tarih</th>
+                                    <th>Tutar</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (orders && orders.length > 0) { %>
+                                    <% orders.forEach(order => { %>
+                                        <tr>
+                                            <td>#<%= order.orderNumber %></td>
+                                            <td><%= new Date(order.createdAt).toLocaleDateString('tr-TR') %></td>
+                                            <td><%= order.total.toFixed(2) %> TL</td>
+                                            <td>
+                                                <% 
+                                                const statusConfig = {
+                                                    'pending': { class: 'warning', text: 'Beklemede' },
+                                                    'processing': { class: 'info', text: 'Hazırlanıyor' },
+                                                    'shipped': { class: 'primary', text: 'Kargoda' },
+                                                    'delivered': { class: 'success', text: 'Tamamlandı' },
+                                                    'cancelled': { class: 'danger', text: 'İptal Edildi' }
+                                                };
+                                                const status = statusConfig[order.status] || statusConfig.pending;
+                                                %>
+                                                <span class="badge bg-<%= status.class %>"><%= status.text %></span>
+                                            </td>
+                                            <td>
+                                                <a href="/orders/<%= order.orderNumber %>" class="btn btn-sm btn-outline-primary">Detay</a>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">
+                                            <i class="fas fa-shopping-bag fa-2x mb-2"></i>
+                                            <p>Henüz siparişiniz bulunmuyor.</p>
+                                            <a href="/products" class="btn btn-outline-danger">Alışverişe Başla</a>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.nav-link {
+    color: #6c757d;
+    border-radius: 0.375rem;
+    margin-bottom: 0.25rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #f8f9fa;
+    color: #ff6b6b;
+}
+
+.nav-link.text-danger:hover {
+    background-color: #fff5f5;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+</style> 

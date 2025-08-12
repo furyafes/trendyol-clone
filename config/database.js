@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect('mongodb+srv://yafesgorkem:GPdkcYK1GfIDHdNC@testpre.xz3dzno.mongodb.net/', {
+    const conn = await mongoose.connect('DB_LINK', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -13,5 +13,6 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
 
 module.exports = connectDB; 

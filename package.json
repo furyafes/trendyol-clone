@@ -4,6 +4,7 @@
   "description": "Express.js ile oluşturulmuş Trendyol klonu e-ticaret uygulaması",
   "main": "app.js",
   "scripts": {
+    "build": "npm install && node app.js",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
@@ -30,3 +31,4 @@
     "nodemon": "^3.0.1"
   }
 }
+

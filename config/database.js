@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect('mongodb://localhost:27017/trendyol-clone', {
+    const conn = await mongoose.connect('mongodb+srv://yafesgorkem:GPdkcYK1GfIDHdNC@testpre.xz3dzno.mongodb.net/', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

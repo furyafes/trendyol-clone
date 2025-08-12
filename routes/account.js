@@ -161,7 +161,6 @@ router.post('/change-password', requireAuth, async (req, res) => {
     });
   }
 });
-
 // Siparişler sayfası
 router.get('/orders', requireAuth, async (req, res) => {
   try {
@@ -210,6 +209,5 @@ router.get('/addresses', requireAuth, async (req, res) => {
     res.redirect('/auth/login');
   }
 });
-
 
 module.exports = router; 

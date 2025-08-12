@@ -266,5 +266,4 @@ router.post('/place-order', (req, res) => {
   });
 });
 
-
 module.exports = router; 

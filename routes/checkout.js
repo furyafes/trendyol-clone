@@ -148,7 +148,7 @@ router.post('/place-order', (req, res) => {
               };
 
               // Veritabanına siparişi kaydet
-              await Order.createOrder(orderData);
+              Order.createOrder(orderData);
 
               // Sepeti temizle
               req.session.cart = [];
@@ -265,5 +265,6 @@ router.post('/place-order', (req, res) => {
     orderNumber: orderNumber
   });
 });
+
 
 module.exports = router; 
